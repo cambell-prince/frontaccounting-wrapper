@@ -1,0 +1,25 @@
+{
+  "name": "frontaccounting-wrapper",
+  "version": "0.1.0",
+  "description": "FrontAccounting wrapper for tests and build environment",
+  "main": "htdocs/index.php",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cambell-prince/frontaccounting-wrapper.git"
+  },
+  "author": "",
+  "license": "GPL V3",
+  "bugs": {
+    "url": ""
+  },
+  "devDependencies": {
+    "gulp-util": "~2.2.14",
+    "gulp": "~3.7",
+    "gulp-exec": "~1.0.4",
+    "gulp-livereload": "~1.2.0",
+    "tiny-lr": "0.0.5"
+  }
+}
