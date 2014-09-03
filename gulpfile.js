@@ -38,10 +38,10 @@ gulp.task('upload', function() {
 		silent: false,
 		src: "htdocs",
 		dest: "root@saygoweb.com:/var/www/virtual/saygoweb.com/bms/htdocs/",
-		key: "~/ssh/dev-cp-private.key"
+		key: "~/.ssh/dev_rsa"
 	};
 	gulp.src('htdocs')
-		.pipe(exec('C:/src/cygwin64/bin/rsync.exe -rzlt --chmod=Dug=rwx,Fug=rw,o-rwx --delete --exclude-from="upload-exclude.txt" --stats --rsync-path="sudo -u vu2006 rsync" --rsh="ssh -i <%= options.key %>" <%= options.src %>/ <%= options.dest %>', options));
+		.pipe(exec('rsync -rzlt --chmod=Dug=rwx,Fug=rw,o-rwx --delete --exclude-from="upload-exclude.txt" --stats --rsync-path="sudo -u vu2006 rsync" --rsh="ssh -i <%= options.key %>" <%= options.src %>/ <%= options.dest %>', options));
 });
 /*
 /c/src/cygwin64/bin/rsync.exe -vaz --rsh="ssh -i ~/ssh/dev-cp-private.key" * root@saygoweb.com:/var/www/virtual/saygoweb.com/bms/htdocs/
@@ -50,7 +50,7 @@ gulp.task('db-backup', function() {
 	var options = {
 		silent: false,
 		dest: "root@bms.saygoweb.com",
-		key: "~/ssh/dev-cp-private.key",
+		key: "~/.ssh/dev_rsa",
 		password: process.env.password
 	};
 	gulp.src('')
@@ -61,10 +61,10 @@ gulp.task('db-copy', function() {
 	var options = {
 		silent: false,
 		dest: "root@bms.saygoweb.com",
-		key: "~/ssh/dev-cp-private.key",
+		key: "~/.ssh/dev_rsa",
 		password: process.env.password
 	};
 	gulp.src('')
-		.pipe(exec('ssh -C -i <%= options.key %> <%= options.dest %> mysqldump -u cambell --password=<%= options.password %> saygoweb_fa | "C:/src/php/wamp/bin/mysql/mysql5.6.17/bin/mysql.exe" -u cambell --password=<%= options.password %> -D saygoweb_fa', options));
+		.pipe(exec('ssh -C -i <%= options.key %> <%= options.dest %> mysqldump -u cambell --password=<%= options.password %> saygoweb_fa | mysql -u cambell --password=<%= options.password %> -D saygoweb_fa', options));
 });
 
