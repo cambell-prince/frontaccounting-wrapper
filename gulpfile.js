@@ -54,7 +54,18 @@ gulp.task('db-backup', function() {
 		password: process.env.password
 	};
 	gulp.src('')
-		.pipe(exec('mysqldump -u cambell --password=<%= options.password %> saygoweb_fa | gzip > backup/backup.sql.gz', options));
+		.pipe(exec('mysqldump -u cambell --password=<%= options.password %> saygoweb_fa | gzip > backup/current.sql.gz', options));
+});
+
+gulp.task('db-restore', function() {
+	var options = {
+		silent: false,
+		dest: "root@bms.saygoweb.com",
+		key: "~/.ssh/dev_rsa",
+		password: process.env.password
+	};
+	gulp.src('')
+		.pipe(exec('gunzip -c backup/current.sql.gz | mysql -u cambell --password=<%= options.password %> -D saygoweb_fa', options));
 });
 
 gulp.task('db-copy', function() {
