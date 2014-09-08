@@ -3,14 +3,26 @@ var gutil = require('gulp-util');
 var exec2 = require('child_process').exec;
 var exec = require('gulp-exec');
 var async = require('async');
+var template = require('lodash.template');
+var rename = require("gulp-rename");
 
-var execute = function(command, callback) {
-  gutil.log(gutil.colors.green(command));
-  exec2(command, function(err, stdout, stderr) {
-    gutil.log(stdout);
-    gutil.log(gutil.colors.yellow(stderr));
-    callback(err);
-  });
+var execute = function(command, options, callback) {
+  if (options == undefined) {
+    options = {};
+  }
+  command = template(command, options);
+  if (!options.silent) {
+    gutil.log(gutil.colors.green(command));
+  }
+  if (!options.dryRun) {
+    exec2(command, function(err, stdout, stderr) {
+      gutil.log(stdout);
+      gutil.log(gutil.colors.yellow(stderr));
+      callback(err);
+    });
+  } else {
+    callback(null);
+  }
 };
 
 var paths = {
@@ -48,63 +60,84 @@ gulp.task('reload', function() {
   });
 });
 
-gulp.task('upload', function() {
+gulp.task('upload', function(cb) {
   var options = {
+    dryRun: true,
     silent : false,
     src : "htdocs",
     dest : "root@saygoweb.com:/var/www/virtual/saygoweb.com/bms/htdocs/",
     key : "~/.ssh/dev_rsa"
   };
-  gulp.src('htdocs')
-    .pipe(exec(
-      'rsync -rzlt --chmod=Dug=rwx,Fug=rw,o-rwx --delete --exclude-from="upload-exclude.txt" --stats --rsync-path="sudo -u vu2006 rsync" --rsh="ssh -i <%= options.key %>" <%= options.src %>/ <%= options.dest %>',
-      options
-    ));
+  execute(
+    'rsync -rzlt --chmod=Dug=rwx,Fug=rw,o-rwx --delete --exclude-from="upload-exclude.txt" --stats --rsync-path="sudo -u vu2006 rsync" --rsh="ssh -i <%= key %>" <%= src %>/ <%= dest %>',
+    options,
+    cb
+  );
 });
 /*
  * /c/src/cygwin64/bin/rsync.exe -vaz --rsh="ssh -i ~/ssh/dev-cp-private.key" *
  * root@saygoweb.com:/var/www/virtual/saygoweb.com/bms/htdocs/
  */
-gulp.task('db-backup', function() {
+gulp.task('db-backup', function(cb) {
   var options = {
+    dryRun: true,
     silent : false,
     dest : "root@bms.saygoweb.com",
     key : "~/.ssh/dev_rsa",
     password : process.env.password
   };
-  gulp.src('')
-    .pipe(exec(
-      'mysqldump -u cambell --password=<%= options.password %> saygoweb_fa | gzip > backup/current.sql.gz',
-      options
-    ));
+  execute(
+    'mysqldump -u cambell --password=<%= password %> saygoweb_fa | gzip > backup/current.sql.gz',
+    options,
+    cb
+  );
 });
 
-gulp.task('db-restore', function() {
+gulp.task('db-restore', function(cb) {
   var options = {
+    dryRun: true,
     silent : false,
     dest : "root@bms.saygoweb.com",
     key : "~/.ssh/dev_rsa",
     password : process.env.password
   };
-  gulp.src('')
-    .pipe(exec(
-      'gunzip -c backup/current.sql.gz | mysql -u cambell --password=<%= options.password %> -D saygoweb_fa',
-      options
-    ));
+  execute(
+    'gunzip -c backup/current.sql.gz | mysql -u cambell --password=<%= password %> -D saygoweb_fa',
+    options,
+    cb
+  );
 });
 
-gulp.task('db-copy', function() {
+gulp.task('db-copy', function(cb) {
   var options = {
+    dryRun : true,
     silent : false,
     dest : "root@bms.saygoweb.com",
     key : "~/.ssh/dev_rsa",
     password : process.env.password
   };
-  gulp.src('')
-      .pipe(exec(
-        'ssh -C -i <%= options.key %> <%= options.dest %> mysqldump -u cambell --password=<%= options.password %> saygoweb_fa | mysql -u cambell --password=<%= options.password %> -D saygoweb_fa',
-        options
-      ));
+  execute(
+    'ssh -C -i <%= key %> <%= dest %> mysqldump -u cambell --password=<%= password %> saygoweb_fa | mysql -u cambell --password=<%= password %> -D saygoweb_fa',
+    options,
+    cb
+  );
+});
+
+gulp.task('test-setup', function(cb) {
+  gulp.src('htdocs/config_db_test.php')
+    .pipe(rename('config_db.php'))
+    .pipe(gulp.dest('htdocs/'));
+  execute(
+      'gunzip -c tests/data/fa_test.sql.gz | mysql -u fatest --password=fatest -D fa_test',
+      null,
+      cb
+    );
+});
+
+gulp.task('test-restore', function() {
+  gulp.src('htdocs/config_db_normal.php')
+    .pipe(rename('config_db.php'))
+    .pipe(gulp.dest('htdocs/'));
 });
 
 gulp.task('test', function(cb) {
