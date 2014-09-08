@@ -141,7 +141,7 @@ gulp.task('test-restore', function() {
 });
 
 gulp.task('test', function(cb) {
-  execute('/usr/bin/env php htdocs/vendor/bin/phpunit tests/*_Test.php', function(err) {
+  execute('/usr/bin/env php htdocs/vendor/bin/phpunit tests/*_Test.php', null, function(err) {
     cb(null); // Swallow the error propagation so that gulp doesn't display a nodejs backtrace.
   });
 });
