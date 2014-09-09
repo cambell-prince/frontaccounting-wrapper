@@ -1,7 +1,6 @@
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var exec2 = require('child_process').exec;
-var exec = require('gulp-exec');
 var async = require('async');
 var template = require('lodash.template');
 var rename = require("gulp-rename");
