@@ -135,11 +135,11 @@ gulp.task('env-checkoutFrontAccounting', function() {
 });
 
 gulp.task('env-db', function(cb) {
-  gulp.src('htdocs/config_db_test.php')
+  gulp.src('tests/data/config_db_test.php')
     .pipe(rename('config_db.php'))
     .pipe(gulp.dest('htdocs/'));
   execute(
-      'gunzip -c tests/data/fa_test.sql.gz | mysql -u fatest --password=fatest -D fa_test',
+      'gunzip -c tests/data/fa_test.sql.gz | mysql -u travis -D fa_test',
       null,
       cb
     );
