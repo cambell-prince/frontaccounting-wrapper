@@ -5,6 +5,7 @@ var exec = require('gulp-exec');
 var async = require('async');
 var template = require('lodash.template');
 var rename = require("gulp-rename");
+var protractor = require("gulp-protractor").protractor;
 
 var execute = function(command, options, callback) {
   if (options == undefined) {
@@ -123,7 +124,17 @@ gulp.task('db-copy', function(cb) {
   );
 });
 
-gulp.task('test-setup', function(cb) {
+gulp.task('env-installProtractor', function(cb) {
+  execute(
+    'sudo npm install -g protractor', null, cb
+  );
+});
+
+gulp.task('env-checkoutFrontAccounting', function() {
+
+});
+
+gulp.task('env-db', function(cb) {
   gulp.src('htdocs/config_db_test.php')
     .pipe(rename('config_db.php'))
     .pipe(gulp.dest('htdocs/'));
@@ -132,6 +143,18 @@ gulp.task('test-setup', function(cb) {
       null,
       cb
     );
+});
+
+gulp.task('env-server', function(cb) {
+  execute('php -S localhost:8000 -t htdocs &', null, cb);
+})
+
+gulp.task('test-e2e', function(cb) {
+  execute(
+    'protractor tests/e2e/phantom-conf.js',
+    null,
+    cb
+  );
 });
 
 gulp.task('test-restore', function() {

@@ -1,0 +1,25 @@
+language: php
+php:
+  - "5.4"
+services:
+  - mysql
+before_script:
+  # install npm deps and gulp
+  - npm install -g gulp
+  - npm install
+  - npm install -g protractor
+  - webdriver-manager update
+  - php -S localhost:80 htdocs &
+  - webdriver-manager start
+  # db setup
+  - mysql -e 'create database fa_test;'
+    # Should be good to do gulp from here on
+  # code / environment
+  - git submodule update --init --recursive           # not really needed but makes sure submodules are there
+  # db configuration
+    # TODO db user perms and copy db config for test
+  # webserver setup
+  - sleep 3
+script:
+  - protractor tests/e2e/phantom-conf.js
+
