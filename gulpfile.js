@@ -4,7 +4,6 @@ var exec2 = require('child_process').exec;
 var async = require('async');
 var template = require('lodash.template');
 var rename = require("gulp-rename");
-var protractor = require("gulp-protractor").protractor;
 
 var execute = function(command, options, callback) {
   if (options == undefined) {
