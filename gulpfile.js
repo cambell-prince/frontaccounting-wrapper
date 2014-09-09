@@ -133,7 +133,7 @@ gulp.task('env-checkoutFrontAccounting', function() {
 });
 
 gulp.task('env-db', function(cb) {
-  gulp.src('tests/data/config_db_test.php')
+  gulp.src('tests/data/config_db.php')
     .pipe(rename('config_db.php'))
     .pipe(gulp.dest('htdocs/'));
   execute(
