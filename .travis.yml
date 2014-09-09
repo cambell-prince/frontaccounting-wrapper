@@ -9,7 +9,7 @@ before_script:
   - npm install
   - npm install -g protractor
   - webdriver-manager update
-  - php -S localhost:80 htdocs &
+  - sudo php -S localhost:80 htdocs &
   - webdriver-manager start &
   # db setup
   - mysql -e 'create database fa_test;'
