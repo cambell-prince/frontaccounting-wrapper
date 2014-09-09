@@ -2,7 +2,7 @@
 
 var LoginPage = function() {
   browser.ignoreSynchronization = true;
-  browser.get('http://bms.local/index.php');
+  browser.get('/index.php');
 
   this.userName = element(by.name('user_name_entry_field'));
   this.password = element(by.name('password'));
