@@ -10,6 +10,7 @@ before_script:
   - npm install -g protractor
   - webdriver-manager update
   - sudo php -S localhost:80 htdocs &
+  - sleep 1
   - webdriver-manager start &
   # db setup
   - mysql -e 'create database fa_test;'
@@ -17,7 +18,7 @@ before_script:
   - gulp env-db
   # code / environment
   # - git submodule update --init --recursive           # not really needed but makes sure submodules are there
-  - sleep 3
+  - sleep 5
 script:
   - protractor tests/e2e/phantom-conf.js
 
