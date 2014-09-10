@@ -133,8 +133,7 @@ gulp.task('env-checkoutFrontAccounting', function() {
 });
 
 gulp.task('env-db', function(cb) {
-  gulp.src('tests/data/config_db.php')
-    .pipe(rename('config_db.php'))
+  gulp.src('tests/data/*.php')
     .pipe(gulp.dest('htdocs/'));
   execute(
       'gunzip -c tests/data/fa_test.sql.gz | mysql -u travis -D fa_test',

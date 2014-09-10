@@ -4,12 +4,14 @@ php:
 services:
   - mysql
 before_script:
+  # get the latest frontaccounting code
+  - git -C htdocs pull origin master-cp
   # install npm deps and gulp
   - npm install -g gulp
   - npm install
   - npm install -g protractor
   - webdriver-manager update
-  - sudo php -S localhost:80 htdocs &
+  - php -S localhost:8000 htdocs &
   - sleep 1
   - webdriver-manager start &
   # db setup
