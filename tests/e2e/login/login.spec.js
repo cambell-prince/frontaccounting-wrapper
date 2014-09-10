@@ -2,7 +2,7 @@
 
 var LoginPage  = require('../pages/login.page.js');
 
-describe('login page', function () {
+describe('login page:', function () {
   var page;
 
   beforeEach(function () {

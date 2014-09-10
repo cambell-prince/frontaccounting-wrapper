@@ -6,7 +6,8 @@ exports.config = {
   // Spec patterns are relative to the location of the conf file. They may
   // include glob patterns.
   suites: {
-    login: 'login/*.spec.js'
+    login: 'login/*.spec.js',
+    banking: 'banking/*.spec.js'
   },
 
   // Options to be passed to Jasmine-node.
