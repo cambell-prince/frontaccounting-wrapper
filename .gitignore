@@ -1,2 +1,4 @@
 node_modules/
 .settings/
+*.log
+/backup/current.sql.gz

@@ -26,7 +26,7 @@ var execute = function(command, options, callback) {
 
 var paths = {
   src: ['htdocs/**/*.inc', 'htdocs/**/*.php', '!htdocs/vendor/**'],
-  test: ['tests/**/*.php']
+  test: ['tests/e2e/**/*.js']
 };
 
 // livereload
@@ -122,16 +122,6 @@ gulp.task('db-copy', function(cb) {
   );
 });
 
-gulp.task('env-installProtractor', function(cb) {
-  execute(
-    'sudo npm install -g protractor', null, cb
-  );
-});
-
-gulp.task('env-checkoutFrontAccounting', function() {
-
-});
-
 gulp.task('env-db', function(cb) {
   gulp.src('tests/data/*.php')
     .pipe(gulp.dest('htdocs/'));
@@ -142,11 +132,15 @@ gulp.task('env-db', function(cb) {
     );
 });
 
-gulp.task('env-server', function(cb) {
-  execute('php -S localhost:8000 -t htdocs &', null, cb);
-})
-
 gulp.task('test-e2e', function(cb) {
+  execute(
+    'protractor tests/e2e/phantom-conf.js',
+    null,
+    cb
+  );
+});
+
+gulp.task('test-current', function(cb) {
   execute(
     'protractor tests/e2e/phantom-conf.js',
     null,
@@ -167,5 +161,5 @@ gulp.task('test', function(cb) {
 });
 
 gulp.task('watch', function() {
-  gulp.watch([paths.src, paths.test], ['test']);
+  gulp.watch([paths.src, paths.test], ['test-current']);
 });
