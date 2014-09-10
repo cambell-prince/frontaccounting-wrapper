@@ -13,7 +13,7 @@ before_script:
   - webdriver-manager update
   - webdriver-manager start &
   - sleep 5
-  - php -S localhost:8000 htdocs &
+  - php -S localhost:8000 -t htdocs &
   - sleep 1
   # db setup
   - mysql -e 'create database fa_test;'
