@@ -1,6 +1,6 @@
 'use strict';
 
-var LoginPage  = require('../pages/login.page.js');
+var LoginPage  = require('./pages/login.page.js');
 
 describe('login page:', function () {
   var page;

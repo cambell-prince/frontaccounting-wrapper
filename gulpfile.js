@@ -140,6 +140,14 @@ gulp.task('test-e2e', function(cb) {
   );
 });
 
+gulp.task('test-chrome', function(cb) {
+  execute(
+    'protractor tests/e2e/chrome-conf.js',
+    null,
+    cb
+  );
+});
+
 gulp.task('test-current', function(cb) {
   execute(
     'protractor tests/e2e/phantom-conf.js',

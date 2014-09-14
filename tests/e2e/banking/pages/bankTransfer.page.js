@@ -1,8 +1,13 @@
 'use strict';
 
-var BankTransferPage = function() {
+var BankTransferPage = function(transactionNo) {
   browser.ignoreSynchronization = true;
-  browser.get('/gl/bank_transfer.php');
+//  http://bms.local/gl/bank_transfer.php&trans_type=4
+  var url = '/gl/bank_transfer.php';
+  if (transactionNo) {
+    url += '?ModifyTransfer=Yes&trans_no=' + transactionNo;
+  }
+  browser.get(url);
 
   this.fromAccount = element(by.name('FromBankAccount'));
   this.toAccount = element(by.name('ToBankAccount'));
@@ -18,8 +23,12 @@ var BankTransferPage = function() {
     this.toAccount.element(by.cssContainingText('option', to)).click();
     this.date.clear();
     this.date.sendKeys(date);
+    this.amount.clear();
     this.amount.sendKeys(amount);
-    if (memo) this.memo.sendKeys(memo);
+    if (memo) {
+      this.memo.clear();
+      this.memo.sendKeys(memo);
+    }
     if (bankCharge) this.bankCharge.sendKeys(bankCharge);
     this.submit.click();
   };
