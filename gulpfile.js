@@ -1,5 +1,6 @@
 var gulp = require('gulp');
 var gutil = require('gulp-util');
+var child_process = require('child_process');
 var exec2 = require('child_process').exec;
 var async = require('async');
 var template = require('lodash.template');
@@ -22,6 +23,37 @@ var execute = function(command, options, callback) {
   } else {
     callback(null);
   }
+};
+
+var start_server = function(options, cb) {
+  var child = child_process.spawn(options.command, options.arguments, {
+    detached: true,
+    cwd: process.cwd,
+    env: process.env,
+    stdio: ['pipe', 'pipe', 'pipe']
+//    stdio: ['ignroe', process.stdout, process.stderr]
+//    stdio: ['ignore', 'pipe', 'pipe']
+  });
+
+  child.once('close', cb);
+  child.unref();
+
+  if (child.stdout) child.stdout.on('data', function(data) {
+//    gutil.log(gutil.colors.yellow('boo '));
+    gutil.log(gutil.colors.yellow(data));
+//    console.log(data);
+    var sentinal = options.sentinal;
+    if (data.toString().indexOf(sentinal) != -1) {
+      cb(null, child);
+    }
+  });
+  if (child.stderr) child.stderr.on('data', function(data) {
+    gutil.log(gutil.colors.red(data));
+    var sentinal = options.sentinal;
+    if (data.toString().indexOf(sentinal) != -1) {
+      cb(null, child);
+    }
+  });
 };
 
 var paths = {
@@ -130,6 +162,25 @@ gulp.task('env-db', function(cb) {
       null,
       cb
     );
+});
+
+gulp.task('start-webdriver', function(cb) {
+  var options = {
+      command: '/usr/local/bin/webdriver-manager',
+      arguments: ['start'],
+      sentinal: 'Started org.openqa.jetty.jetty.Server'
+  };
+  start_server(options, cb);
+});
+
+gulp.task('start-php', function(cb) {
+  var options = {
+      command: '/usr/bin/php',
+      arguments: ['-S', 'localhost:8000', '-t', 'htdocs'],
+      sentinal: 'Press Ctrl-C to quit.'
+  };
+  start_server(options, cb);
+//execute('/usr/bin/php -S localhost:8000 -t htdocs &', null, cb);
 });
 
 gulp.task('test-e2e', function(cb) {

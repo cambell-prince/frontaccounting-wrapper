@@ -16,7 +16,7 @@ var BankTransferPage = function(transactionNo) {
   this.amount = element(by.name('amount'));
   this.bankCharge = element(by.name('charge'));
   this.memo = element(by.name('memo_'));
-  this.submit = element(by.name('AddPayment'));
+  this.submit = element(by.name('submit'));
 
   this.transfer = function(from, to, date, amount, memo, bankCharge) {
     this.fromAccount.element(by.cssContainingText('option', from)).click();
