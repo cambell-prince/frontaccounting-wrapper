@@ -23,11 +23,11 @@ var BankTransferPage = function(transactionNo) {
 
   this.transfer = function(from, to, date, amount, memo, bankCharge) {
     page.fromAccount.element(by.cssContainingText('option', from)).click();
-    page.toAccount.element(by.cssContainingText('option', to)).click();
     page.date.clear();
     page.date.sendKeys(date);
     page.amount.clear();
     page.amount.sendKeys(amount);
+    page.toAccount.element(by.cssContainingText('option', to)).click();
     if (memo) {
       page.memo.clear();
       page.memo.sendKeys(memo);
