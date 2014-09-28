@@ -154,15 +154,20 @@ gulp.task('db-copy', function(cb) {
   );
 });
 
-gulp.task('env-db', function(cb) {
+gulp.task('env-files', function() {
   gulp.src('tests/data/*.php')
     .pipe(gulp.dest('htdocs/'));
+});
+
+gulp.task('env-db', function(cb) {
   execute(
       'gunzip -c tests/data/fa_test.sql.gz | mysql -u travis -D fa_test',
       null,
       cb
     );
 });
+
+gulp.task('env-test', ['env-db', 'env-files'], function() {});
 
 gulp.task('start-webdriver', function(cb) {
   var options = {
@@ -183,7 +188,7 @@ gulp.task('start-php', function(cb) {
 //execute('/usr/bin/php -S localhost:8000 -t htdocs &', null, cb);
 });
 
-gulp.task('test-e2e', function(cb) {
+gulp.task('test-e2e', ['env-test'], function(cb) {
   execute(
     'protractor tests/e2e/phantom-conf.js',
     null,
@@ -191,7 +196,7 @@ gulp.task('test-e2e', function(cb) {
   );
 });
 
-gulp.task('test-chrome', function(cb) {
+gulp.task('test-chrome', ['env-test'], function(cb) {
   execute(
     'protractor tests/e2e/chrome-conf.js',
     null,

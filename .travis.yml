@@ -18,10 +18,7 @@ before_script:
   # db setup
   - mysql -e 'create database fa_test;'
     # Should be good to do gulp from here on
-  - gulp env-db
-  # code / environment
-  # - git submodule update --init --recursive           # not really needed but makes sure submodules are there
   - sleep 2
 script:
-  - protractor tests/e2e/phantom-conf.js
+  - gulp test-e2e
 
