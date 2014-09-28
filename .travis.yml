@@ -18,7 +18,7 @@ before_script:
   # db setup
   - mysql -e 'create database fa_test;'
     # Should be good to do gulp from here on
-  - sleep 2
+  - sleep 3
 script:
   - gulp test-e2e
 
