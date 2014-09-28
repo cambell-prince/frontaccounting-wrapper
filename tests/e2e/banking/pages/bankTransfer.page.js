@@ -22,8 +22,10 @@ var BankTransferPage = function(transactionNo) {
   }
 
   this.transfer = function(from, to, date, amount, memo, bankCharge) {
+    browser.driver.manage().timeouts().implicitlyWait(20);
     page.fromAccount.element(by.cssContainingText('option', from)).click();
     page.toAccount.element(by.cssContainingText('option', to)).click();
+    browser.driver.manage().timeouts().implicitlyWait(0);
     page.date.clear();
     page.date.sendKeys(date);
     page.amount.clear();
