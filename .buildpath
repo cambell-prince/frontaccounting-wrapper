@@ -2,5 +2,6 @@
 <buildpath>
 	<buildpathentry kind="src" path="htdocs"/>
 	<buildpathentry kind="src" path="tests"/>
+	<buildpathentry kind="src" path="vendor"/>
 	<buildpathentry kind="con" path="org.eclipse.php.core.LANGUAGE"/>
 </buildpath>

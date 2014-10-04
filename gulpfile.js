@@ -58,7 +58,8 @@ var start_server = function(options, cb) {
 
 var paths = {
   src: ['htdocs/**/*.inc', 'htdocs/**/*.php', '!htdocs/vendor/**'],
-  test: ['tests/e2e/**/*.js']
+  testE2E: ['tests/e2e/**/*.js'],
+  testUnit: ['tests/php/**/*.php']
 };
 
 // livereload
@@ -220,12 +221,13 @@ gulp.task('test-restore', function() {
     .pipe(gulp.dest('htdocs/'));
 });
 
-gulp.task('test', function(cb) {
-  execute('/usr/bin/env php htdocs/vendor/bin/phpunit tests/*_Test.php', null, function(err) {
+gulp.task('test-php', function(cb) {
+  execute('/usr/bin/env php vendor/bin/phpunit tests/php/*_Test.php', null, function(err) {
     cb(null); // Swallow the error propagation so that gulp doesn't display a nodejs backtrace.
   });
 });
 
 gulp.task('watch', function() {
-  gulp.watch([paths.src, paths.test], ['test-current']);
+//  gulp.watch([paths.src, paths.testE2E], ['test-current']);
+  gulp.watch([paths.testUnit, paths.src], ['test-php']);
 });

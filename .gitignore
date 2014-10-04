@@ -1,4 +1,5 @@
-node_modules/
-.settings/
+/node_modules/
+/vendor/
+/.settings/
 *.log
 /backup/current.sql.gz
