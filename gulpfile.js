@@ -222,7 +222,7 @@ gulp.task('test-restore', function() {
 });
 
 gulp.task('test-php', function(cb) {
-  execute('/usr/bin/env php vendor/bin/phpunit tests/php/*_Test.php', null, function(err) {
+  execute('/usr/bin/env php vendor/bin/phpunit --coverage-html ./wiki/code_coverage tests/php/*_Test.php', null, function(err) {
     cb(null); // Swallow the error propagation so that gulp doesn't display a nodejs backtrace.
   });
 });
