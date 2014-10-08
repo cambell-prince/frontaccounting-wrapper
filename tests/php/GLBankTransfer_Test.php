@@ -29,8 +29,8 @@ class GLBankTransferTest extends PHPUnit_Framework_TestCase
 		// Create transfer
 		$amount = 22;
 		$transactionId = add_bank_transfer(
-			TestEnvironment::fromAccount(),
-			TestEnvironment::toAccount(),
+			TestEnvironment::currentAccount(),
+			TestEnvironment::cashAccount(),
 			'2/3/2014',
 			$amount,
 			'1',
@@ -59,8 +59,8 @@ class GLBankTransferTest extends PHPUnit_Framework_TestCase
 		$amount = 33;
 		$updatedTransactionId = update_bank_transfer(
 			$transactionId,
-			TestEnvironment::toAccount(),
-			TestEnvironment::fromAccount(),
+			TestEnvironment::cashAccount(),
+			TestEnvironment::currentAccount(),
 			'4/5/2014',
 			$amount,
 			'2',
@@ -113,18 +113,41 @@ class GLBankTransferTest extends PHPUnit_Framework_TestCase
 	public function testBankTransfer_TwoTransfersEditFirst_DoesntPermitBelowZero()
 	{
 		TestEnvironment::includeFile('gl/includes/db/gl_db_banking.inc');
-
-		$amount = 22;
-		$transactionId = add_bank_transfer(
-		    TestEnvironment::fromAccount(),
-		    TestEnvironment::toAccount(),
-		    '2/3/2014',
-		    $amount,
-		    '3',
-		    'Some memo',
-		    0,
-		    0
+		$amount = 40;
+		$transactionId1 = add_bank_transfer(
+			TestEnvironment::currentAccount(),
+			TestEnvironment::cashAccount(),
+			'2/3/2014',
+			$amount,
+			'3',
+			'Some memo',
+			0,
+			0
 		);
+		$amount = 30;
+		$transactionId2 = add_bank_transfer(
+			TestEnvironment::cashAccount(),
+			TestEnvironment::currentAccount(),
+			'2/3/2014',
+			$amount,
+			'3',
+			'Some memo',
+			0,
+			0
+		);
+		$amount = 10;
+		$updatedTransactionId = update_bank_transfer(
+			$transactionId1,
+			TestEnvironment::currentAccount(),
+			TestEnvironment::cashAccount(),
+			'2/3/2014',
+			$amount,
+			'3',
+			'Some memo',
+			0,
+			0
+		);
+
 	}
 
 }

@@ -93,11 +93,11 @@ class TestEnvironment
 		require_once(SRC_PATH . '/' . $filePath);
 	}
 
-	public static function fromAccount() {
+	public static function currentAccount() {
 		return 1;
 	}
 
-	public static function toAccount() {
+	public static function cashAccount() {
 		return 2;
 	}
 
