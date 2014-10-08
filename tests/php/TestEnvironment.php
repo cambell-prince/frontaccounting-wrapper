@@ -56,7 +56,7 @@ class TestEnvironment
 		self::includeFile('includes/prefs/sysprefs.inc');
 		self::includeFile('includes/db/comments_db.inc');
 		self::includeFile('includes/db/audit_trail_db.inc');
-		$_SESSION['SysPrefs'] = new sys_prefs();
+		$_SESSION['SysPrefs'] = null;
 		$GLOBALS['SysPrefs'] = &$_SESSION['SysPrefs'];
 		self::mockRefs();
 	}
@@ -99,6 +99,17 @@ class TestEnvironment
 
 	public static function toAccount() {
 		return 2;
+	}
+
+	public static function cleanTable($table) {
+		$sql = 'DELETE FROM ' . '0_' . $table;
+		db_query($sql, "Could not clean table '$table'");
+	}
+
+	public static function cleanBanking() {
+		self::cleanTable('bank_trans');
+		self::cleanTable('gl_trans');
+		self::cleanTable('comments');
 	}
 
 }
