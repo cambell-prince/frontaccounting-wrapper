@@ -3,3 +3,4 @@
 /.settings/
 *.log
 /backup/current.sql.gz
+/wiki
