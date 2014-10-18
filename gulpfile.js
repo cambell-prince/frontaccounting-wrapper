@@ -234,6 +234,13 @@ gulp.task('test-php', function(cb) {
   });
 });
 
+gulp.task('tasks', function(cb) {
+  var command = 'grep gulp\.task gulpfile.js';
+  execute(command, null, function(err) {
+    cb(null); // Swallow the error propagation so that gulp doesn't display a nodejs backtrace.
+  });
+});
+
 gulp.task('watch', function() {
 //  gulp.watch([paths.src, paths.testE2E], ['test-current']);
   gulp.watch([paths.testUnit, paths.src], ['test-php']);
