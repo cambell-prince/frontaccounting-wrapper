@@ -1,12 +1,12 @@
 <?php
 /**********************************************************************
     Copyright (C) FrontAccounting, LLC.
-	Released under the terms of the GNU General Public License, GPL, 
-	as published by the Free Software Foundation, either version 3 
+	Released under the terms of the GNU General Public License, GPL,
+	as published by the Free Software Foundation, either version 3
 	of the License, or (at your option) any later version.
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
     See the License here <http://www.gnu.org/licenses/gpl-3.0.html>.
 ***********************************************************************/
     //--------------------------------------------------
@@ -25,25 +25,25 @@ if (!isset($path_to_root) || isset($_GET['path_to_root']) || isset($_POST['path_
        ini_set('date.timezone', 'Europe/Berlin');
 
 	// Log file for error/warning messages. Should be set to any location
-	// writable by www server. When set to empty string logging is switched off. 
+	// writable by www server. When set to empty string logging is switched off.
 	// Special value 'syslog' can be used for system logger usage (see php manual).
 	//$error_logfile = '';
 	$error_logfile = dirname(__FILE__).'/tmp/errors.log';
 	$debug 			= 1;	// show sql on database errors
 
 	$show_sql 		= 0;	// show all sql queries in page footer for debugging purposes
-	$go_debug 		= 0;	// set to 1 for basic debugging, or 2 to see also backtrace after failure.
+	$go_debug 		= 1;	// set to 1 for basic debugging, or 2 to see also backtrace after failure.
 	$pdf_debug 		= 0;	// display pdf source instead reports for debugging when $go_debug!=0
 	// set $sql_trail to 1 only if you want to perform bugtracking sql trail
 	// Warning: this produces huge amount of data in sql_trail table.
-	// Don't forget switch the option off and flush the table manually after 
+	// Don't forget switch the option off and flush the table manually after
 	// trail, or your future backup files are overloaded with unneeded data.
 	//
 	$sql_trail 		= 0; // save all sql queries in sql_trail
 	$select_trail 	= 0; // track also SELECT queries
 	if ($go_debug > 0)
 	{
-		error_reporting(-1);
+		error_reporting(E_ALL | E_STRICT);
 		ini_set("display_errors", "On");
 	}
 	else
@@ -57,7 +57,7 @@ if (!isset($path_to_root) || isset($_GET['path_to_root']) || isset($_POST['path_
 		ini_set("error_log", $error_logfile);
 		ini_set("ignore_repeated_errors", "On");
 		ini_set("log_errors", "On");
-	}		
+	}
 	// Main Title
 	$app_title = "FrontAccounting";
 
@@ -70,7 +70,7 @@ if (!isset($path_to_root) || isset($_GET['path_to_root']) || isset($_POST['path_
 
 	/* No check on edit conflicts. Maybe needed to be set to 1 in certains Windows Servers */
 	$no_check_edit_conflicts = 0;
-	
+
 	/* Do not print zero lines amount of 0.00 in Sales Documents if service item. 1 = do not */
 	$no_zero_lines_amount = 1;
 
@@ -96,7 +96,7 @@ if (!isset($path_to_root) || isset($_GET['path_to_root']) || isset($_POST['path_
 
 	/* $show_voiced_gl_trans = 0, setting this to 1 will show the voided gl trans */
 	$show_voided_gl_trans = 0;
-	
+
 	/* use old style convert (income and expense in BS, PL) */
 	$use_oldstyle_convert = 0;
 
@@ -145,7 +145,7 @@ if (!isset($path_to_root) || isset($_GET['path_to_root']) || isset($_POST['path_
 
 	/* suppress tax rates on documents. 0 = no, 1 = yes. */
 	$suppress_tax_rates = 0;
-	
+
 	$dateformats 	= array("MMDDYYYY", "DDMMYYYY", "YYYYMMDD","MmmDDYYYY", "DDMmmYYYY", "YYYYMmmDD");
 	$dateseps 		= array("/", ".", "-", " ");
 	$thoseps 		= array(",", ".", " ");
@@ -178,7 +178,7 @@ if (!isset($path_to_root) || isset($_GET['path_to_root']) || isset($_POST['path_
 
 	/* Show menu category icons in core themes */
 	$show_menu_category_icons = 0;
-	
+
 	// Internal configurable variables
 	//-----------------------------------------------------------------------------------
 
@@ -194,16 +194,16 @@ if (!isset($path_to_root) || isset($_GET['path_to_root']) || isset($_POST['path_
 	$pic_height 	= 50;
 	$max_image_size = 500;
 
-	/* skin for Business Graphics. 1 = Office, 2 = Matrix, or 3 = Spring. 
+	/* skin for Business Graphics. 1 = Office, 2 = Matrix, or 3 = Spring.
 	   Pallete skin attributes set in reporting/includes/class.graphic.inc */
 	$graph_skin 	= 1;
 
-/*	
+/*
 	Before upgrade from pre-2.2 FA you have to move here your customized
 	security roles definitions. If you have used standard roles, you
-	can simply uncomment following two arrays. After upgrade both arrays need 
+	can simply uncomment following two arrays. After upgrade both arrays need
 	to be deleted or commented out. You may wish to change user roles to
-	new better defined in Users Setup. Old not used roles can be set inactive 
+	new better defined in Users Setup. Old not used roles can be set inactive
 	or deleted.
 */
 /* Standard FA2.1 Security Group definitions
@@ -233,14 +233,14 @@ if(isset($_SESSION["wa_current_user"])) {
 	// additional js source included in header
 	$js_lib = $js_userlib = array();
 
-/* 
+/*
 	Display a dropdown select box for choosing Company to login if false.
 	Show a blank editbox only if true where the Company NickName
 	will have to be manually entered. This is when privacy is needed.
 */
 $text_company_selection  = false;
 
-/*  Should FA hide menu items (Applications, Modules, and Actions) from the user if they don't have access to them? 
+/*  Should FA hide menu items (Applications, Modules, and Actions) from the user if they don't have access to them?
     0 for no       1 for yes
 */
 
