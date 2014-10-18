@@ -12,11 +12,12 @@
 
 
 $installed_languages = array (
-  0 => 
+  0 =>
   array (
     'code' => 'C',
     'name' => 'English',
     'encoding' => 'iso-8859-1',
+    'version' => '1',
   ),
 );
 
