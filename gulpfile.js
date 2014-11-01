@@ -221,13 +221,13 @@ gulp.task('test-restore', function() {
     .pipe(gulp.dest('htdocs/'));
 });
 
-gulp.task('test-php', function(cb) {
+gulp.task('test-php', ['env-db'], function(cb) {
   var command = '';
   var withCoverage = false;
   if (withCoverage) {
     command = '/usr/bin/env php vendor/bin/phpunit --coverage-html ./wiki/code_coverage tests/php/*_Test.php';
   } else {
-    command = '/usr/bin/env php vendor/bin/phpunit tests/php/*_Test.php';
+    command = '/usr/bin/env php vendor/bin/phpunit -c phpunit.xml';
   }
   execute(command, null, function(err) {
     cb(null); // Swallow the error propagation so that gulp doesn't display a nodejs backtrace.
