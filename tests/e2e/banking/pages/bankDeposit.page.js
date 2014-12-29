@@ -22,6 +22,7 @@ var BankDepositPage = function(transactionNo) {
 
   this.deposit = function(to, date, amount, memo) {
     page.toAccount.element(by.cssContainingText('option', to)).click();
+    browser.sleep(1);
     page.date.clear();
     page.date.sendKeys(date);
     page.amount.clear();

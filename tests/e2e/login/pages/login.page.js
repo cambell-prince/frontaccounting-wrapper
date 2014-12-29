@@ -12,6 +12,7 @@ var LoginPage = function() {
     this.userName.sendKeys(userName);
     this.password.sendKeys(userName);
     this.submit.click();
+    browser.sleep(1);
   };
 
   this.getTitle = function() {

@@ -14,6 +14,7 @@ var BankJournalInquiryPage = function() {
   this.search = function(reference, type, from, to, showClosed) {
     if (reference) this.reference.sendKeys(reference);
     this.type.element(by.cssContainingText('option', type)).click();
+    browser.sleep(1);
     this.dateFrom.clear();
     this.dateFrom.sendKeys(from);
     this.dateTo.clear();
