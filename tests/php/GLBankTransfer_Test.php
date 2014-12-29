@@ -227,4 +227,41 @@ class GLBankTransferTest extends PHPUnit_Framework_TestCase
 		);
 		$this->assertNull($problemTransaction);
 	}
+
+	public function testCheckBankTransfer_TwoTransfersEditSecondJustRight_Succeeds()
+	{
+		TestEnvironment::includeFile('gl/includes/db/gl_db_banking.inc');
+		$amount = 40;
+		$transactionId1 = add_bank_transfer(
+			TestEnvironment::currentAccount(),
+			TestEnvironment::cashAccount(),
+			'2/3/2014',
+			$amount,
+			'3',
+			'Some memo',
+			0, 0
+		);
+		$amount = 30;
+		$transactionId2 = add_bank_transfer(
+			TestEnvironment::cashAccount(),
+			TestEnvironment::currentAccount(),
+			'2/13/2014',
+			$amount,
+			'3',
+			'Some memo',
+			0,
+			0
+		);
+		$amount = 35;
+		$problemTransaction = check_bank_transfer(
+			$transactionId2,
+			TestEnvironment::cashAccount(),
+			TestEnvironment::currentAccount(),
+			'2/13/2014',
+			$amount,
+			0,
+			0
+		);
+		$this->assertNull($problemTransaction);
+	}
 }
