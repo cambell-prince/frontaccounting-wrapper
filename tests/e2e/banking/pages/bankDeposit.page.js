@@ -22,17 +22,18 @@ var BankDepositPage = function(transactionNo) {
 
   this.deposit = function(to, date, amount, memo) {
     page.toAccount.element(by.cssContainingText('option', to)).click();
-    browser.sleep(1);
     page.date.clear();
     page.date.sendKeys(date);
     page.amount.clear();
     page.amount.sendKeys(amount);
     page.addItemButton.click();
+    browser.sleep(1);
     if (memo) {
       page.memo.clear();
       page.memo.sendKeys(memo);
     }
     page.submit.click();
+    browser.sleep(1);
   };
 
   this.getTitle = function() {
@@ -44,6 +45,7 @@ var BankDepositPage = function(transactionNo) {
   };
 
   this.getNoteMessage = function() {
+    this.pageElements();
     return element(by.css('div.note_msg')).getText();
   };
 

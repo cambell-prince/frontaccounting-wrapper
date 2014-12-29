@@ -2,20 +2,24 @@
 
 var BankAccountInquiryPage = function() {
   browser.ignoreSynchronization = true;
-  browser.get('/gl/inquiry/bank_inquiry.php');
+  var page = this;
 
-  this.account = element(by.name('bank_account'));
-  this.dateFrom = element(by.name('TransAfterDate'));
-  this.dateTo = element(by.name('TransToDate'));
-  this.submit = element(by.name('Show'));
+  this.pageElements = function() {
+    page.account = element(by.name('bank_account'));
+    page.dateFrom = element(by.name('TransAfterDate'));
+    page.dateTo = element(by.name('TransToDate'));
+    page.submit = element(by.name('Show'));
+  }
 
   this.search = function(account, from, to) {
-    this.account.element(by.cssContainingText('option', account)).click();
-    this.dateFrom.clear();
-    this.dateFrom.sendKeys(from);
-    this.dateTo.clear();
-    this.dateTo.sendKeys(to);
-    this.submit.click();
+    page.account.element(by.cssContainingText('option', account)).click();
+    page.dateFrom.clear();
+    page.dateFrom.sendKeys(from);
+    page.dateTo.clear();
+    page.dateTo.sendKeys(to);
+    page.submit.click();
+    browser.sleep(1);
+    this.pageElements();
   };
 
   this.getTitle = function() {
@@ -23,6 +27,7 @@ var BankAccountInquiryPage = function() {
   };
 
   this.getResultRow = function(row) {
+    this.pageElements();
     var items = element.all(by.css('div#trans_tbl tr'))
     .get(row + 2)
     .all(by.tagName('td'))
@@ -36,6 +41,7 @@ var BankAccountInquiryPage = function() {
   };
 
   this.getBalance = function() {
+    this.pageElements();
     var items = element.all(by.css('div#trans_tbl tr.inquirybg'))
     .get(1)
     .all(by.tagName('td'))
@@ -48,6 +54,8 @@ var BankAccountInquiryPage = function() {
     return items;
   }
 
+  browser.get('/gl/inquiry/bank_inquiry.php');
+  this.pageElements();
 }
 
 module.exports = BankAccountInquiryPage;

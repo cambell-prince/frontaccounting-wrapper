@@ -6,7 +6,7 @@ var BankJournalInquiryPage  = require('./pages/bankJournalInquiry.page.js');
 describe('bank transfer page:', function () {
 
   beforeEach(function () {
-    browser.driver.manage().timeouts().implicitlyWait(20);
+    browser.driver.manage().timeouts().implicitlyWait(2000);
   });
 
   var reference = '';

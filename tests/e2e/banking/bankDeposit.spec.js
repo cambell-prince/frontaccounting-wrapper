@@ -7,7 +7,7 @@ var BankAccountInquiryPage  = require('./pages/bankAccountInquiry.page.js');
 describe('bank deposit page:', function () {
 
   beforeEach(function () {
-    browser.driver.manage().timeouts().implicitlyWait(20);
+    browser.driver.manage().timeouts().implicitlyWait(2000);
   });
 
   var reference = '';

@@ -20,6 +20,7 @@ var BankJournalInquiryPage = function() {
     this.dateTo.sendKeys(to);
     if (showClosed) this.showClosed.click();
     this.submit.click();
+    browser.sleep(1);
   };
 
   this.getTitle = function() {

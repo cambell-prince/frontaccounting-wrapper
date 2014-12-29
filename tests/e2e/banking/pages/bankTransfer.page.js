@@ -39,6 +39,7 @@ var BankTransferPage = function(transactionNo) {
       page.bankCharge.sendKeys(bankCharge);
     }
     page.submit.click();
+    browser.sleep(1);
   };
 
   this.getTitle = function() {
