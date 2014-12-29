@@ -9,7 +9,7 @@ before_script:
   # install npm deps and gulp
   - npm install -g gulp
   - npm install
-  # - webdriver-manager update
+  - ./node_modules/protractor/bin/webdriver-manager update --standalone
   - ./node_modules/protractor/bin/webdriver-manager start &
   - sleep 5
   - php -S localhost:8000 -t htdocs &
