@@ -210,9 +210,9 @@ gulp.task('start-php', function(cb) {
 //execute('/usr/bin/php -S localhost:8000 -t htdocs &', null, cb);
 });
 
-gulp.task('test-e2e', ['env-test'], function(cb) {
+gulp.task('test-e2e-travis', ['env-test'], function(cb) {
   execute(
-    'nodejs ./node_modules/protractor/bin/protractor tests/e2e/phantom-conf.js',
+    './node_modules/protractor/bin/protractor tests/e2e/phantom-conf.js',
     null,
     cb
   );

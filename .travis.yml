@@ -19,5 +19,5 @@ before_script:
     # Should be good to do gulp from here on
   - sleep 3
 script:
-  - gulp test-e2e
+  - gulp test-e2e-travis
 
