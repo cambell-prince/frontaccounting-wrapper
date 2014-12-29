@@ -182,6 +182,8 @@ gulp.task('db-copy', function(cb) {
 gulp.task('env-files', function() {
   gulp.src('tests/data/*.php')
     .pipe(gulp.dest('htdocs/'));
+  gulp.src('tests/data/company/0/*.php')
+  .pipe(gulp.dest('htdocs/company/0/'));
   gulp.src('tests/data/lang/*')
   .pipe(gulp.dest('htdocs/lang/'));
 });
