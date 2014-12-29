@@ -1,0 +1,4 @@
+.git
+sql/
+config_db.php
+config.php
