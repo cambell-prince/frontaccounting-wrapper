@@ -15,7 +15,10 @@ var execute = function(command, options, callback) {
     gutil.log(gutil.colors.green(command));
   }
   if (!options.dryRun) {
-    exec2(command, function(err, stdout, stderr) {
+    if (options.env == undefined) {
+      options.env = {};
+    }
+    exec2(command, {env: options.env}, function(err, stdout, stderr) {
       gutil.log(stdout);
       gutil.log(gutil.colors.yellow(stderr));
       callback(err);
@@ -106,6 +109,22 @@ gulp.task('upload', function(cb) {
     cb
   );
 });
+
+gulp.task('upload-demo', function(cb) {
+  var options = {
+    dryRun: false,
+    silent : false,
+    src : "htdocs",
+    dest : "root@saygoweb.com:/var/www/virtual/saygoweb.com/demo/htdocs/frontaccounting/",
+    key : ""
+  };
+  execute(
+    'rsync -rzlt --chmod=Dug=rwx,Fug=rw,o-rwx --delete --exclude-from="upload-exclude.txt" --stats --rsync-path="sudo -u vu2006 rsync" --rsh="ssh" <%= src %>/ <%= dest %>',
+    options,
+    cb
+  );
+});
+
 /*
  * /c/src/cygwin64/bin/rsync.exe -vaz --rsh="ssh -i ~/ssh/dev-cp-private.key" *
  * root@saygoweb.com:/var/www/virtual/saygoweb.com/bms/htdocs/
@@ -222,13 +241,24 @@ gulp.task('test-restore', function() {
 });
 
 gulp.task('test-php', ['env-db'], function(cb) {
-  var command = '';
-  var withCoverage = false;
-  if (withCoverage) {
-    command = '/usr/bin/env php vendor/bin/phpunit --coverage-html ./wiki/code_coverage tests/php/*_Test.php';
-  } else {
-    command = '/usr/bin/env php vendor/bin/phpunit -c phpunit.xml';
-  }
+  var command = '/usr/bin/env php vendor/bin/phpunit -c phpunit.xml';
+  execute(command, null, function(err) {
+    cb(null); // Swallow the error propagation so that gulp doesn't display a nodejs backtrace.
+  });
+});
+
+gulp.task('test-php-debug', ['env-db'], function(cb) {
+  var options = {
+      env: {'XDEBUG_CONFIG': 'idekey=eclipse'}
+  };
+  var command = '/usr/bin/env php vendor/bin/phpunit -c phpunit.xml';
+  execute(command, options, function(err) {
+    cb(null); // Swallow the error propagation so that gulp doesn't display a nodejs backtrace.
+  });
+});
+
+gulp.task('test-php-coverage', ['env-db'], function(cb) {
+  var command = '/usr/bin/env php vendor/bin/phpunit -c phpunit.xml --coverage-html ./wiki/code_coverage';
   execute(command, null, function(err) {
     cb(null); // Swallow the error propagation so that gulp doesn't display a nodejs backtrace.
   });
