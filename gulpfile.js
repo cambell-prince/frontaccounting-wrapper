@@ -231,7 +231,7 @@ gulp.task('test-chrome', ['env-test'], function(cb) {
   );
 });
 
-gulp.task('test-current', function(cb) {
+gulp.task('test-current', ['env-test'], function(cb) {
   execute(
     'protractor tests/e2e/phantom-conf.js',
     null,
