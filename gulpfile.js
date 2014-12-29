@@ -16,13 +16,18 @@ var execute = function(command, options, callback) {
   }
   if (!options.dryRun) {
     if (options.env == undefined) {
-      options.env = {};
+      exec2(command, function(err, stdout, stderr) {
+        gutil.log(stdout);
+        gutil.log(gutil.colors.yellow(stderr));
+        callback(err);
+      });
+    } else {
+      exec2(command, {env: options.env}, function(err, stdout, stderr) {
+        gutil.log(stdout);
+        gutil.log(gutil.colors.yellow(stderr));
+        callback(err);
+      });
     }
-    exec2(command, {env: options.env}, function(err, stdout, stderr) {
-      gutil.log(stdout);
-      gutil.log(gutil.colors.yellow(stderr));
-      callback(err);
-    });
   } else {
     callback(null);
   }
