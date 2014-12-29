@@ -1,6 +1,6 @@
 // conf.js
 exports.config = {
-  seleniumAddress: 'http://localhost:4444/wd/hub',
+  seleniumAddress: 'http://127.0.0.2:4444/wd/hub',
   baseUrl: 'http://localhost:8000',
 
   // Spec patterns are relative to the location of the conf file. They may
