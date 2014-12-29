@@ -12,7 +12,7 @@ var LoginPage = function() {
     this.userName.sendKeys(userName);
     this.password.sendKeys(userName);
     this.submit.click();
-    browser.sleep(500);
+    browser.sleep(700);
   };
 
   this.getTitle = function() {

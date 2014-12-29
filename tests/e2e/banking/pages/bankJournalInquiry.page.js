@@ -14,14 +14,14 @@ var BankJournalInquiryPage = function() {
   this.search = function(reference, type, from, to, showClosed) {
     if (reference) this.reference.sendKeys(reference);
     this.type.element(by.cssContainingText('option', type)).click();
-    browser.sleep(500);
+    browser.sleep(700);
     this.dateFrom.clear();
     this.dateFrom.sendKeys(from);
     this.dateTo.clear();
     this.dateTo.sendKeys(to);
     if (showClosed) this.showClosed.click();
     this.submit.click();
-    browser.sleep(500);
+    browser.sleep(700);
   };
 
   this.getTitle = function() {

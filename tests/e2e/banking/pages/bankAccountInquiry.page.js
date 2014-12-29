@@ -13,13 +13,13 @@ var BankAccountInquiryPage = function() {
 
   this.search = function(account, from, to) {
     page.account.element(by.cssContainingText('option', account)).click();
-    browser.sleep(500);
+    browser.sleep(700);
     page.dateFrom.clear();
     page.dateFrom.sendKeys(from);
     page.dateTo.clear();
     page.dateTo.sendKeys(to);
     page.submit.click();
-    browser.sleep(500);
+    browser.sleep(700);
     this.pageElements();
   };
 
