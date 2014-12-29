@@ -22,19 +22,19 @@ var BankDepositPage = function(transactionNo) {
 
   this.deposit = function(to, date, amount, memo) {
     page.toAccount.element(by.cssContainingText('option', to)).click();
-    browser.sleep(1);
+    browser.sleep(500);
     page.date.clear();
     page.date.sendKeys(date);
     page.amount.clear();
     page.amount.sendKeys(amount);
     page.addItemButton.click();
-    browser.sleep(1);
+    browser.sleep(500);
     if (memo) {
       page.memo.clear();
       page.memo.sendKeys(memo);
     }
     page.submit.click();
-    browser.sleep(1);
+    browser.sleep(500);
   };
 
   this.getTitle = function() {
