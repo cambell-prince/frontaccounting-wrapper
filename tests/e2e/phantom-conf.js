@@ -16,8 +16,7 @@ exports.config = {
   },
 
   capabilities: {
-    'browserName': 'phantomjs',
-    'phantomjs.binary.path': 'phantomjs'
+    'browserName': 'phantomjs'
   }
 
 }
