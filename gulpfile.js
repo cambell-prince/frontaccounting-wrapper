@@ -212,7 +212,7 @@ gulp.task('start-php', function(cb) {
 
 gulp.task('test-e2e', ['env-test'], function(cb) {
   execute(
-    'protractor tests/e2e/phantom-conf.js',
+    '/usr/local/bin/protractor tests/e2e/phantom-conf.js',
     null,
     cb
   );
@@ -220,7 +220,7 @@ gulp.task('test-e2e', ['env-test'], function(cb) {
 
 gulp.task('test-chrome', ['env-test'], function(cb) {
   execute(
-    'protractor tests/e2e/chrome-conf.js',
+    '/usr/local/bin/protractor tests/e2e/chrome-conf.js',
     null,
     cb
   );
