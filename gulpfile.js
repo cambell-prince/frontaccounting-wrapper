@@ -100,16 +100,49 @@ gulp.task('reload', function() {
   });
 });
 
-gulp.task('upload', function(cb) {
+gulp.task('package-zip', function(cb) {
   var options = {
-    dryRun: true,
-    silent : false,
-    src : "htdocs",
-    dest : "root@saygoweb.com:/var/www/virtual/saygoweb.com/bms/htdocs/",
-    key : "~/.ssh/dev_rsa"
+    dryRun: false,
+    silent: false,
+    src: "./htdocs",
+    name: "frontaccounting",
+    version: "2.3.22",
+    release: "-bootstrap.theme.1"
   };
   execute(
-    'rsync -rzlt --chmod=Dug=rwx,Fug=rw,o-rwx --delete --exclude-from="upload-exclude.txt" --stats --rsync-path="sudo -u vu2006 rsync" --rsh="ssh -i <%= key %>" <%= src %>/ <%= dest %>',
+    'rm -f *.zip && cd <%= src %> && zip -r -x@../upload-exclude-zip.txt -q ../<%= name %>-<%= version %><%= release %>.zip *',
+    options,
+    cb
+  );
+});
+
+gulp.task('package-tar', function(cb) {
+  var options = {
+    dryRun: false,
+    silent: false,
+    src: "./htdocs",
+    name: "frontaccounting",
+    version: "2.3.22",
+    release: "-bootstrap.theme.1"
+  };
+  execute(
+    'rm -f *.tgz && cd <%= src %> && tar -cvzf ../<%= name %>-<%= version %><%= release %>.tgz -X ../upload-exclude.txt *',
+    options,
+    cb
+  );
+});
+
+gulp.task('package', ['package-zip', 'package-tar']);
+
+gulp.task('upload', function(cb) {
+  var options = {
+    dryRun: false,
+    silent : false,
+    src : "htdocs",
+    dest : "root@saygoweb.com:/var/www/virtual/saygoweb.com/bms/htdocs/"
+  };
+  execute(
+    'rsync -rzlt --chmod=Dug=rwx,Fug=rw,o-rwx --delete --exclude-from="upload-exclude.txt" --stats --rsync-path="sudo -u vu2006 rsync" --rsh="ssh" <%= src %>/ <%= dest %>',
     options,
     cb
   );
