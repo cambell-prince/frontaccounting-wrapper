@@ -10,7 +10,7 @@ before_install:
   - sudo mv phantomjs-1.9.7-linux-x86_64 /usr/local/phantomjs
 before_script:
   # get the latest frontaccounting code
-  # - git -C htdocs pull origin master-cp
+  - git clone -b master-cp https://github.com/cambell-prince/frontaccounting.git htdocs
   # install npm deps and gulp
   - npm install -g gulp
   - npm install
