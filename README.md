@@ -59,3 +59,11 @@ The travis testing is done using phantomjs on the Travis node rather than chrome
  * Run the E2E tests using the Chrome web driver
 
 		gulp test-chrome
+
+#### Installing NodeJS and Gulp
+
+npm is the Node Package Manager and comes installed as part of 'nodejs'.  The task runner used here is 'gulp' which can be installed via the Node Package Manager, npm.
+
+If you don't have nodejs and npm installed you can get it on a debian / ubuntu system by:
+
+	apt-get install nodejs
