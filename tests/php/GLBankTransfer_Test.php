@@ -15,8 +15,11 @@ class GLBankTransferTest extends PHPUnit_Framework_TestCase
 {
 
 	function setUp() {
-		TestEnvironment::isGoodToGo();
-		TestEnvironment::cleanBanking();
+		if ( ($msg=TestEnvironment::isGoodToGo()) != 'OK') {
+			$this->markTestSkipped($msg);
+		} else {
+			TestEnvironment::cleanBanking();
+		}
 	}
 
 	function tearDown() {
@@ -259,7 +262,82 @@ class GLBankTransferTest extends PHPUnit_Framework_TestCase
 			TestEnvironment::currentAccount(),
 			'2/13/2014',
 			$amount,
+			0
+		);
+		$this->assertNull($problemTransaction);
+	}
+
+	public function testCheckBankTransfer_TwoTransfersMoveSecondBeforeFirst_Fails()
+	{
+		TestEnvironment::includeFile('gl/includes/db/gl_db_banking.inc');
+		$amount = 40;
+		$transactionId1 = add_bank_transfer(
+			TestEnvironment::currentAccount(),
+			TestEnvironment::cashAccount(),
+			'2/3/2014',
+			$amount,
+			'3',
+			'Some memo',
 			0,
+			$amount
+		);
+		$amount = 30;
+		$transactionId2 = add_bank_transfer(
+			TestEnvironment::cashAccount(),
+			TestEnvironment::currentAccount(),
+			'2/13/2014',
+			$amount,
+			'3',
+			'Some memo',
+			0,
+			$amount
+		);
+		$amount = 40;
+		$problemTransaction = check_bank_transfer(
+			$transactionId2,
+			TestEnvironment::cashAccount(),
+			TestEnvironment::currentAccount(),
+			'2/01/2014',
+			$amount,
+			0
+		);
+		$this->assertNotNull($problemTransaction);
+		$this->assertEquals(-40, $problemTransaction['amount']);
+		$this->assertEquals('2014-02-01', $problemTransaction['trans_date']);
+	}
+
+	public function testCheckBankTransfer_TwoTransfersEditFirstLower_Succeeds()
+	{
+		TestEnvironment::includeFile('gl/includes/db/gl_db_banking.inc');
+		$amount = 40;
+		$transactionId1 = add_bank_transfer(
+			TestEnvironment::currentAccount(),
+			TestEnvironment::cashAccount(),
+			'2/3/2014',
+			$amount,
+			'3',
+			'Some memo',
+			0,
+			$amount
+		);
+		$amount = 30;
+		$transactionId2 = add_bank_transfer(
+			TestEnvironment::cashAccount(),
+			TestEnvironment::currentAccount(),
+			'2/13/2014',
+			$amount,
+			'3',
+			'Some memo',
+			0,
+			$amount
+		);
+		$amount = 30;
+		$problemTransaction = check_bank_transfer(
+			$transactionId1,
+			TestEnvironment::currentAccount(),
+			TestEnvironment::cashAccount(),
+			'2/3/2014',
+			$amount,
 			0
 		);
 		$this->assertNull($problemTransaction);

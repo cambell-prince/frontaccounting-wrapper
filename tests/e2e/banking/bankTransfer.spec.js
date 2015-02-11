@@ -57,7 +57,7 @@ describe('bank transfer page:', function () {
     expect(page.getReference()).toEqual(reference);
     browser.debugger();
     page.transfer('Petty Cash account', 'Current account', '1/2/2013', '110', 'Some other memo', null);
-    expect(page.getErrorMessage()).toEqual('This bank transfer would result in exceeding authorized overdraft limit of the account (10.00)');
+    expect(page.getErrorMessage()).toEqual('This bank transfer change would result in exceeding authorized overdraft limit (10.00) of the account \'Petty Cash account\'');
   });
   it('updates and reads back', function () {
     var page = new BankTransferPage(trans_no);
