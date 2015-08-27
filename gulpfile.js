@@ -202,8 +202,8 @@ gulp.task('db-copy', function(cb) {
     dryRun : true,
     silent : false,
     dest : "root@bms.saygoweb.com",
-    key : "~/.ssh/dev_rsa",
-    password : process.env.password
+    key : "~/.ssh/id_rsa",
+    password : process.env.password_db
   };
   execute(
     'ssh -C -i <%= key %> <%= dest %> mysqldump -u cambell --password=<%= password %> saygoweb_fa | mysql -u cambell --password=<%= password %> -D saygoweb_fa',
@@ -259,8 +259,13 @@ gulp.task('test-e2e-travis', ['env-test'], function(cb) {
 });
 
 gulp.task('test-chrome', ['env-test'], function(cb) {
+//  execute(
+//    '/usr/local/bin/protractor tests/e2e/chrome-conf.js',
+//    null,
+//    cb
+//  );
   execute(
-    '/usr/local/bin/protractor tests/e2e/chrome-conf.js',
+    '/usr/bin/env node node_modules/protractor/bin/protractor tests/e2e/chrome-conf.js',
     null,
     cb
   );
