@@ -106,8 +106,8 @@ gulp.task('package-zip', function(cb) {
     silent: false,
     src: "./htdocs",
     name: "frontaccounting",
-    version: "2.3.22",
-    release: "-bootstrap.theme.1"
+    version: "2.3.24",
+    release: "-bootstrap.theme.2"
   };
   execute(
     'rm -f *.zip && cd <%= src %> && zip -r -x@../upload-exclude-zip.txt -q ../<%= name %>-<%= version %><%= release %>.zip *',
@@ -122,8 +122,8 @@ gulp.task('package-tar', function(cb) {
     silent: false,
     src: "./htdocs",
     name: "frontaccounting",
-    version: "2.3.22",
-    release: "-bootstrap.theme.1"
+    version: "2.3.24",
+    release: "-bootstrap.theme.2"
   };
   execute(
     'rm -f *.tgz && cd <%= src %> && tar -cvzf ../<%= name %>-<%= version %><%= release %>.tgz -X ../upload-exclude.txt *',
@@ -199,11 +199,11 @@ gulp.task('db-restore', function(cb) {
 
 gulp.task('db-copy', function(cb) {
   var options = {
-    dryRun : true,
+    dryRun : false,
     silent : false,
     dest : "root@bms.saygoweb.com",
     key : "~/.ssh/dev_rsa",
-    password : process.env.password
+    password : process.env.password_db
   };
   execute(
     'ssh -C -i <%= key %> <%= dest %> mysqldump -u cambell --password=<%= password %> saygoweb_fa | mysql -u cambell --password=<%= password %> -D saygoweb_fa',

@@ -29,6 +29,8 @@ Note that the travis build pulls the latest code from the branch 'master-cp' fro
 
 The travis testing is done using phantomjs on the Travis node rather than chrome, as Travis nodes are headless.
 
+The version of webdriver currently installed is not the latest as that runs too quickly and does not work well with the ajax library used by Front Accounting.  See the .travis_yml file for details.
+
 ### Installation & Operation
 
 #### For the PHPUnit Tests

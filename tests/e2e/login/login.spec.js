@@ -10,7 +10,7 @@ describe('login page:', function () {
   });
 
   it('have title and login', function () {
-    expect(page.getTitle()).toEqual('FrontAccounting 2.3.22 - Login');
+    expect(page.getTitle()).toEqual('FrontAccounting 2.3.24 - Login');
     page.login('test', 'test');
     expect(page.getTitle()).toEqual('Main Menu');
   });
